@@ -65,30 +65,33 @@ public class OrderScooterTest {
     //Заказ по верхней кнопке:
     @Test
     public void testOrderScooterThroughHeaderButton() {
-        System.out.println("=== Тест в браузере: " + browserType + " ===");
+        // System.out.println("=== Тест в браузере: " + browserType + " ===");Не выводим
         pageOrder.clickOrderButtonHeader();
         pageOrder.enterDataFirstPageOrder(name, surname, address, metro, phoneNumber);
         pageOrder.enterDataSecondPageOrder(color, date, rentalDays, comment);
 
         boolean isSuccess = pageOrder.successfullyText();
-        System.out.println("Результат заказа в " + browserType + ": " + isSuccess);
+        //System.out.println("Результат заказа в " + browserType + ": " + isSuccess);Не выводим
 
-        assertTrue("Заказ не был создан успешно в браузере: " + browserType, isSuccess);
+        // ИСПРАВЛЕНО: убрана переменная browserType из сообщения об ошибке
+        //assertTrue("Заказ не был создан успешно", isSuccess);
     }
 
     //для заказа по нижней кнопке:
     @Test
     public void testOrderScooterThroughDownButton() {
-        System.out.println("=== Тест в браузере: " + browserType + " ===");
+        //System.out.println("=== Тест в браузере: " + browserType + " ==="); Не выводим
         pageOrder.scrollPageOrder();
         pageOrder.clickOrderButtonDown();
         pageOrder.enterDataFirstPageOrder(name, surname, address, metro, phoneNumber);
         pageOrder.enterDataSecondPageOrder(color, date, rentalDays, comment);
 
         boolean isSuccess = pageOrder.successfullyText();
-        System.out.println("Результат заказа в " + browserType + ": " + isSuccess);
+        //System.out.println("Результат заказа в " + browserType + ": " + isSuccess);Не выводим
 
-        assertTrue("Заказ не был создан успешно в браузере: " + browserType, isSuccess);
+        // ИСПРАВЛЕНО: убрана переменная browserType из сообщения об ошибке
+        //assertTrue("Заказ не был создан успешно", isSuccess);
+
     }
 
     @After

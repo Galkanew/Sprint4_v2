@@ -55,7 +55,7 @@ public class PageOrder {
         WebElement orderButton = driver.findElement(OrderButtonDown);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", orderButton);
 
-        // Добавляем небольшую паузу после скролла
+        // Добавляем небольшую паузу после скролла НЕ ИСПОЛЬЗУЕМ
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
