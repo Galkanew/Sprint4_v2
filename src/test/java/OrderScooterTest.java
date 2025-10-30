@@ -12,7 +12,6 @@ import pageobjects.PageOrder;
 import java.util.Arrays;
 import java.util.Collection;
 import java.time.Duration;
-
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
@@ -71,6 +70,7 @@ public class OrderScooterTest {
         pageOrder.enterDataSecondPageOrder(color, date, rentalDays, comment);
 
         boolean isSuccess = pageOrder.successfullyText();
+        assertTrue("Заказ должен быть успешно оформлен", isSuccess);
 
          }
 
@@ -84,7 +84,7 @@ public class OrderScooterTest {
         pageOrder.enterDataSecondPageOrder(color, date, rentalDays, comment);
 
         boolean isSuccess = pageOrder.successfullyText();
-
+        assertTrue("Заказ должен быть успешно оформлен", isSuccess);
     }
 
     @After
@@ -101,9 +101,9 @@ public class OrderScooterTest {
                 {"chrome", "Петр", "Толстой", "Москва", 10, "+75126778894", "черный", "27.09.2025", 3, "Оставить около двери"},
 
                 // Firefox тесты - ЗАКОММЕНТИРОВАНЫ для ревью:
-                // {"firefox", "Галина", "Петровна", "Москва", 3, "+79667653344", "черный", "16.09.2025", 7, "Позвоните за 30 минут"},
-                // {"firefox", "Роман", "Максимов", "Москва", 15, "+79541112233", "серый", "18.10.2025", 5, ""},
-                // {"firefox", "Петр", "Толстой", "Москва", 10, "+75126778894", "черный", "27.09.2025", 3, "Оставить около двери"}
+                //{"firefox", "Галина", "Петровна", "Москва", 3, "+79667653344", "черный", "16.09.2025", 7, "Позвоните за 30 минут"},
+                //{"firefox", "Роман", "Максимов", "Москва", 15, "+79541112233", "серый", "18.10.2025", 5, ""},
+                //{"firefox", "Петр", "Толстой", "Москва", 10, "+75126778894", "черный", "27.09.2025", 3, "Оставить около двери"}
         });
     }}
 
