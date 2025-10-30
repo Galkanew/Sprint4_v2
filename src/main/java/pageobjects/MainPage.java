@@ -5,6 +5,8 @@ package pageobjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.HashMap;
@@ -13,37 +15,38 @@ public class MainPage {
 
     private final WebDriver driver;
 
-    // Локаторы вопросов с 1 - 8 из раздела "Вопросы о важном":
-    private final static By Question_1 = By.id("accordion__heading-0");
-    private final static By Question_2 = By.id("accordion__heading-1");
-    private final static By Question_3 = By.id("accordion__heading-2");
-    private final static By Question_4 = By.id("accordion__heading-3");
-    private final static By Question_5 = By.id("accordion__heading-4");
-    private final static By Question_6 = By.id("accordion__heading-5");
-    private final static By Question_7 = By.id("accordion__heading-6");
-    private final static By Question_8 = By.id("accordion__heading-7");
+    // Локаторы вопросов с содержательными именами:
+    private final static By questionCost = By.id("accordion__heading-0");
+    private final static By questionMultipleScooters = By.id("accordion__heading-1");
+    private final static By questionRentalTime = By.id("accordion__heading-2");
+    private final static By questionTodayOrder = By.id("accordion__heading-3");
+    private final static By questionExtendReturn = By.id("accordion__heading-4");
+    private final static By questionCharging = By.id("accordion__heading-5");
+    private final static By questionCancelOrder = By.id("accordion__heading-6");
+    private final static By questionOutsideMkad = By.id("accordion__heading-7");
 
+    // Локаторы ответов с содержательными именами:
+    private final static By answerCost = By.id("accordion__panel-0");
+    private final static By answerMultipleScooters = By.id("accordion__panel-1");
+    private final static By answerRentalTime = By.id("accordion__panel-2");
+    private final static By answerTodayOrder = By.id("accordion__panel-3");
+    private final static By answerExtendReturn = By.id("accordion__panel-4");
+    private final static By answerCharging = By.id("accordion__panel-5");
+    private final static By answerCancelOrder = By.id("accordion__panel-6");
+    private final static By answerOutsideMkad = By.id("accordion__panel-7");
 
-    // Локаторы ответов с 1 - 8 на вопросы из раздела "Вопросы о важном":
-    private final static By Answer_1 = By.id("accordion__panel-0");
-    private final static By Answer_2 = By.id("accordion__panel-1");
-    private final static By Answer_3 = By.id("accordion__panel-2");
-    private final static By Answer_4 = By.id("accordion__panel-3");
-    private final static By Answer_5 = By.id("accordion__panel-4");
-    private final static By Answer_6 = By.id("accordion__panel-5");
-    private final static By Answer_7 = By.id("accordion__panel-6");
-    private final static By Answer_8 = By.id("accordion__panel-7");
     // Ключ: значение (вопрос: ответ):
     static HashMap<By, By> map = new HashMap<>();
+
     static {
-        map.put(Question_1, Answer_1);
-        map.put(Question_2, Answer_2);
-        map.put(Question_3, Answer_3);
-        map.put(Question_4, Answer_4);
-        map.put(Question_5, Answer_5);
-        map.put(Question_6, Answer_6);
-        map.put(Question_7, Answer_7);
-        map.put(Question_8, Answer_8);
+        map.put(questionCost, answerCost);
+        map.put(questionMultipleScooters, answerMultipleScooters);
+        map.put(questionRentalTime, answerRentalTime);
+        map.put(questionTodayOrder, answerTodayOrder);
+        map.put(questionExtendReturn, answerExtendReturn);
+        map.put(questionCharging, answerCharging);
+        map.put(questionCancelOrder, answerCancelOrder);
+        map.put(questionOutsideMkad, answerOutsideMkad);
     }
 
     public MainPage(WebDriver driver) {
@@ -53,7 +56,7 @@ public class MainPage {
     // Скроллим главную страницу до первого вопроса:
     public void scrollMainPage() {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);",
-                driver.findElement(Question_1));
+                driver.findElement(questionCost));
     }
 
     // Открыть элемент списка вопросов, ждем появления текста с ответом:
@@ -65,17 +68,33 @@ public class MainPage {
         return driver.findElement(map.get(questionLocator)).getText();
     }
 
-    // Новый метод для получения ответа на вопрос по тексту:
+    // исправленный метод для получения ответа на вопрос по тексту:
     public String getAnswerForQuestion(String question) {
         // Логика получения ответа на вопрос
-        // Предполагаем, что вопрос будет использоваться для получения локатора
-        // В реальной реализации можно использовать поиск в мапе или другой подход
         for (By questionLocator : map.keySet()) {
-            if (driver.findElement(questionLocator).getText().contains(question)) {
+            String actualQuestionText = driver.findElement(questionLocator).getText();
+            if (actualQuestionText.equals(question)) {
                 return getAnswer(questionLocator);
             }
         }
         return "Ответ не найден";
     }
+
+    public void scrollToQuestion(String question) {
+        for (By questionLocator : map.keySet()) {
+            WebElement questionElement = driver.findElement(questionLocator);
+            if (questionElement.getText().equals(question)) {
+                // Скроллим к конкретному вопросу
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", questionElement);
+
+                // Ждем, пока элемент станет кликабельным
+                new WebDriverWait(driver, Duration.ofSeconds(5))
+                        .until(ExpectedConditions.elementToBeClickable(questionElement));
+                break;
+            }
+        }
+    }
 }
+
+
 

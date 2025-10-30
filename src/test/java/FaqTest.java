@@ -25,7 +25,7 @@ public class FaqTest {
     private final String expectedAnswer;
     private final String browserType;
 
-    public FaqTest(String browserType, String question, String expectedAnswer) {
+       public FaqTest(String browserType, String question, String expectedAnswer) {
         this.browserType = browserType;
         this.question = question;
         this.expectedAnswer = expectedAnswer;
@@ -72,10 +72,23 @@ public class FaqTest {
 
     @Test
     public void checkQuestion() {
-        mainPage.scrollMainPage();
-        String actualAnswer = mainPage.getAnswerForQuestion(question);
-        assertEquals("Ошибка в браузере: " + browserType, expectedAnswer, actualAnswer);
+        try {
+            // Явное ожидание и скролл к вопросу
+            mainPage.scrollToQuestion(question);
+
+            // Получение ответа с явным ожиданием видимости
+            String actualAnswer = mainPage.getAnswerForQuestion(question);
+
+            // Проверка соответствия
+            assertEquals("Ошибка в браузере: " + browserType + ". Вопрос: " + question, expectedAnswer, actualAnswer);
+
+        } catch (Exception e) {
+            System.err.println("Ошибка при проверке вопроса: " + question + " в браузере " + browserType);
+            e.printStackTrace();
+            throw e;
+        }
     }
+
 
     @After
     public void tearDown() {

@@ -40,9 +40,8 @@ public class PageOrder {
     private static final By SubmitButton = By.xpath("//*[@id='root']/div/div[2]/div[3]/button[2]");
     private static final By PopapButton = By.xpath("//*[@id='root']/div/div[2]/div[5]/div[1]");
     private static final By YesButton = By.xpath("//*[@id='root']/div/div[2]/div[5]/div[2]/button[2]");
-
     public PageOrder(WebDriver driver) {
-        this.driver = driver;
+                        this.driver = driver;
     }
 
     // Метод для закрытия баннера куки
@@ -55,14 +54,11 @@ public class PageOrder {
         WebElement orderButton = driver.findElement(OrderButtonDown);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", orderButton);
 
-        // Добавляем небольшую паузу после скролла НЕ ИСПОЛЬЗУЕМ
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // Добавляем небольшую паузу после скролла ИСПРАВИЛА
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOf(orderButton));
+        wait.until(ExpectedConditions.elementToBeClickable(orderButton));
     }
-
     // Нажатие на нижнюю кнопку "Заказать"
     public void clickOrderButtonDown() {
         WebElement orderButton = driver.findElement(OrderButtonDown);
